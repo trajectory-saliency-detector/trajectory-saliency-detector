@@ -1,1748 +1,1033 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="description"
-    content="TSD: A Physics-Inspired Trajectory Key Segment Detector for Efficient Imitation Learning">
-  <meta name="keywords" content="physic-inspired, data preprocessing, imitate learning">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TSD: A Physics-Inspired Trajectory Key Segment Detector for Efficient Imitation Learning</title>
-
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
-
-  <link rel="stylesheet" href="./static/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-  <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/icon.svg">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="./static/js/fontawesome.all.min.js"></script>
-  <script src="./static/js/bulma-carousel.min.js"></script>
-  <script src="./static/js/bulma-slider.min.js"></script>
-  <script src="./static/js/index.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Anonymous project page for TSD, a kinematics-based trajectory saliency detector for data-efficient robot imitation learning.">
+    <meta name="keywords"
+        content="robot imitation learning, trajectory saliency, dataset compression, targeted data collection">
+    <title>TSD: A Kinematics-Based Trajectory Saliency Detector</title>
+    <link rel="stylesheet" href="./static/css/site.css">
 </head>
 
 <body>
-
-  <section class="hero">
-    <div class="hero-body">
-      <div class="container is-max-desktop">
-        <div class="columns is-centered">
-          <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">TSD: A Physics-Inspired Trajectory Saliency Detector for
-              Efficient Imitation Learning</h1>
-
-            <div class="is-size-5 publication-authors">
-              <span class="author-block">Anonymous Authors</span>
-            </div>
-
-            <div class="column has-text-centered">
-              <div class="publication-links">
-                <!-- PDF Link. -->
-                <span class="link-block">
-                  <a href="./static/paper.pdf" class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                    </span>
-                    <span>Paper</span>
-                  </a>
-                </span>
-                <!-- Code Link. -->
-                <span class="link-block">
-                  <a href="https://anonymous.4open.science/r/TSD"
-                    class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <i class="fab fa-github"></i>
-                    </span>
-                    <span>Code</span>
-                  </a>
-                </span>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container is-max-desktop">
-      <div class="hero-body">
-        <h2 class="title is-2 has-text-centered">Video</h2>
-        <video id="teaser" preload="none" controls muted loop playsinline height="100%">
-          <source
-            data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/intro.mp4"
-            type="video/mp4">
-        </video>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container is-max-desktop">
-      <!-- Abstract. -->
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          <h2 class="title is-2">Abstract</h2>
-          <div class="content has-text-justified">
-            <p>
-              For imitation learning in robotic manipulation, high data collection costs result in the scarcity of high
-              quality data.
-              In this paper, we leverage the inherent heterogeneity of trajectories to address this challenge. Based on
-              our
-              observations of manipulation tasks, we categorize motions into transitional, precise, and agile types,
-              defining the
-              latter two as trajectory saliency due to their criticality to task success in contrast to the prevalent
-              but less
-              relevant transitional motions. Therefore, we propose the Trajectory Saliency Detector (TSD), a
-              training-free and
-              plug-and-play framework to identify trajectory saliency. TSD employs two physically-grounded metrics:
-              spatial entropy to
-              capture fine-grained manipulation and centripetal acceleration to detect agile maneuvering. We further
-              leverage TSD to
-              develop a dataset compression method that reduces training costs and a dataset expansion strategy that
-              improves data
-              collection efficiency. Extensive experiments in both simulation and real-world settings demonstrate that
-              models trained
-              on TSD-condensed datasets achieve comparable or even superior performance with 25% less data on average.
-              These results
-              validate the effectiveness of our dataset compression and expansion strategies, thereby confirming the
-              utility of TSD.
-              Consequently, TSD offers a scalable and cost-effective pathway to synthesize information-dense datasets
-              for efficient
-              robot learning.
-            </p>
-          </div>
-        </div>
-      </div>
-      <!--/ Abstract. -->
-
-      <!-- big picture -->
-      <div class="container is-max-desktop">
-        <div class="hero-body">
-          <figure class="image">
-            <img src="./static/images/bigpicture.png" alt="Teaser image" class="teaser-image">
-          </figure>
-          <h2 class="title is-5 has-text-centered">Framework overview</h2>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container is-max-desktop">
-
-      <h2 class="title is-2 has-text-centered">Consistency of Saliency Detection</h2>
-
-      <div class="content">
-        <p>
-          Through experimental analysis, we observe that the proposed TSD algorithm exhibits significant consistency in
-          extracting critical task features, characterized by <strong>Numerical Consistency</strong> and
-          <strong>Positional Consistency</strong>.
-        </p>
-      </div>
-
-      <h3 class="title is-3 has-text-centered">Consistency Convergence</h3>
-      <div class="content">
-        <p>
-          <strong>Numerical Consistency</strong> signifies the stability of the detection results relative to the
-          dataset
-          size.
-          Once the number of demonstrations reaches a fundamental threshold, the quantity and the spatiotemporal
-          localization of
-          identified precise and agile segments converge to a stable state.
-        </p>
-
-        <p>
-          <strong>Positional Consistency</strong> reflects the algorithm's robustness against spatial perturbations.
-          Objects are often
-          placed randomly within a specific workspace.
-        </p>
-      </div>
-
-      <div class="columns is-centered">
-        <div class="column is-12">
-          <div class="columns is-centered is-multiline">
-            <div class="column is-6" style="display: flex;">
-              <div class="box" style="flex: 1; display: flex; flex-direction: column;">
-                <h4 class="title is-4 has-text-centered">agility convergence</h4>
-                <figure class="image" style="flex: 1; display: flex; align-items: center;">
-                  <img src="./static/images/agility_convergence.png" alt="agility_convergence">
-                </figure>
-              </div>
-            </div>
-            <div class="column is-6" style="display: flex;">
-              <div class="box" style="flex: 1; display: flex; flex-direction: column;">
-                <h4 class="title is-4 has-text-centered">precision convergence</h4>
-                <figure class="image" style="flex: 1; display: flex; align-items: center;">
-                  <img src="./static/images/precision_convergence.png" alt="precision_convergence">
-                </figure>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="columns is-centered">
-        <div class="column">
-          <h3 class="title is-3 has-text-centered">Consistency Visualization</h3>
-          <div class="columns is-centered">
-            <div class="column content">
-              <p>
-                The visualization shows the detected precise and agile segments and the corresponding
-                visual frames, demonstrating TSD's accuracy in identifying key segments.
-              </p>
-              <video id="qualitative-results" preload="metadata" controls muted loop playsinline
-                style="display: block; margin: 0 auto; width: 80%; max-width: 800px; height: auto;">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/collect_data_vis.mp4"
-                  type="video/mp4">
-              </video>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          const lazyVideos = document.querySelectorAll('video');
-          if ("IntersectionObserver" in window) {
-            const lazyVideoObserver = new IntersectionObserver((entries, observer) => {
-              entries.forEach(entry => {
-                const video = entry.target;
-                if (entry.isIntersecting) {
-                  // data-src
-                  let needsLoad = false;
-                  for (let i = 0; i < video.children.length; i++) {
-                    const source = video.children[i];
-                    if (source.tagName === 'SOURCE' && source.dataset.src) {
-                      source.src = source.dataset.src;
-                      source.removeAttribute('data-src');
-                      needsLoad = true;
-                    }
-                  }
-                  if (needsLoad) video.load();
-
-                  const closestTab = video.closest('.task-tab-content');
-                  if (!closestTab || closestTab.classList.contains('is-active')) {
-                    video.play().catch(e => console.log('Play prevented', e));
-                  }
-                } else {
-                  video.pause();
-                }
-              });
-            }, { threshold: 0.1 });
-
-            lazyVideos.forEach(video => {
-              lazyVideoObserver.observe(video);
-            });
-          }
-        });
-      </script>
-
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container is-max-desktop">
-
-      <h2 class="title is-2 has-text-centered">Experiments</h2>
-
-      <div class="container is-max-desktop">
-        <div class="hero-body">
-          <h2 class="title is-3 has-text-centered">Task settings</h2>
-          <p>
-            We validate the detection performance of TSD and corresponding model training effectiveness across five
-            robomimic
-            simulation tasks, and three real-world manipulation tasks, including single-arm and dual-arm scenarios.
-          </p>
-          <div class="content has-text-left" style="margin: 0 auto; max-width: 800px;">
-            <ul>
-              <li><strong>Simulation:</strong> Reported aggregate success rates from 450 trials across the last three
-                training checkpoints.</li>
-              <li><strong>Real-World:</strong> Conducted 30 real robot trials with randomized location to test
-                models' real-world adaptability.</li>
-            </ul>
-          </div>
-          <figure class="image">
-            <img src="./static/images/exp_setting.png" alt="Teaser image" class="teaser-image">
-          </figure>
-        </div>
-      </div>
-
-      <div class="content has-text-centered">
-        <h3 class="title is-3">Experiment Results</h3>
-
-        <div class="table-container" style="overflow-x: auto;">
-          <table class="table is-bordered is-hoverable is-narrow has-text-centered"
-            style="margin: 0 auto; width: 100%; max-width: 900px; font-size: 0.85em;">
-            <thead>
-              <tr
-                style="border-top: 2px solid #363636; border-bottom: 2px solid #363636; font-weight: bold; background-color: #f5f5f5;">
-                <td colspan="3" style="vertical-align: middle;">Model</td>
-                <td style="vertical-align: middle;">Base</td>
-                <td style="vertical-align: middle;">A1</td>
-                <td style="vertical-align: middle;">A2(Ours)</td>
-                <td style="vertical-align: middle;">A3</td>
-                <td style="vertical-align: middle;">B1</td>
-                <td style="vertical-align: middle;">B2(Ours)</td>
-                <td style="vertical-align: middle;">B3</td>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Sim Section -->
-              <tr>
-                <td rowspan="10" style="vertical-align: middle; font-weight: bold;">Sim</td>
-                <td rowspan="2" style="vertical-align: middle;">Can</td>
-                <td>Succ.</td>
-                <td>53.3%</td>
-                <td>72.8%</td>
-                <td><strong>82.0%</strong></td>
-                <td>83.1%</td>
-                <td>91.7%</td>
-                <td><strong>92.0%</strong></td>
-                <td>93.7%</td>
-              </tr>
-              <tr>
-                <td>Size</td>
-                <td>4617(19.9%)</td>
-                <td>7999(34.5%)</td>
-                <td><strong>7884(33.9%)</strong></td>
-                <td>11561(49.8%)</td>
-                <td>13863(59.7%)</td>
-                <td><strong>13321(57.4%)</strong></td>
-                <td>23207(100%)</td>
-              </tr>
-
-              <tr>
-                <td rowspan="2" style="vertical-align: middle;">Lift</td>
-                <td>Succ.</td>
-                <td>96.6%</td>
-                <td>98.8%</td>
-                <td><strong>99.3%</strong></td>
-                <td>98.6%</td>
-                <td>98.6%</td>
-                <td><strong>99.7%</strong></td>
-                <td>99.3%</td>
-              </tr>
-              <tr>
-                <td>Size</td>
-                <td>1992(20.6%)</td>
-                <td>3465(35.8%)</td>
-                <td><strong>3399(35.1%)</strong></td>
-                <td>4886(50.5%)</td>
-                <td>5919(61.2%)</td>
-                <td><strong>5839(60.4%)</strong></td>
-                <td>9666(100%)</td>
-              </tr>
-
-              <tr>
-                <td rowspan="2" style="vertical-align: middle;">Tool Hang</td>
-                <td>Succ.</td>
-                <td>5.1%</td>
-                <td>35.7%</td>
-                <td><strong>35.7%</strong></td>
-                <td>36.4%</td>
-                <td>46.6%</td>
-                <td><strong>56.8%</strong></td>
-                <td>58.6%</td>
-              </tr>
-              <tr>
-                <td>Size</td>
-                <td>18817(19.6%)</td>
-                <td>37077(38.6%)</td>
-                <td><strong>34107(35.5%)</strong></td>
-                <td>46740(48.7%)</td>
-                <td>65721(68.5%)</td>
-                <td><strong>64237(66.9%)</strong></td>
-                <td>95962(100%)</td>
-              </tr>
-
-              <tr>
-                <td rowspan="2" style="vertical-align: middle;">Transport</td>
-                <td>Succ.</td>
-                <td>24.6%</td>
-                <td>49.5%</td>
-                <td><strong>69.5%</strong></td>
-                <td>73.3%</td>
-                <td>88.8%</td>
-                <td><strong>95.3%</strong></td>
-                <td>89.3%</td>
-              </tr>
-              <tr>
-                <td>Size</td>
-                <td>18837(20.1%)</td>
-                <td>38774(41.2%)</td>
-                <td><strong>40188(42.8%)</strong></td>
-                <td>46902(49.2%)</td>
-                <td>78032(83.2%)</td>
-                <td><strong>79044(84.3%)</strong></td>
-                <td>93752(100%)</td>
-              </tr>
-
-              <tr>
-                <td rowspan="2" style="vertical-align: middle; border-bottom: 2px solid #363636;">Square</td>
-                <td>Succ.</td>
-                <td>11.1%</td>
-                <td>66.2%</td>
-                <td><strong>68.8%</strong></td>
-                <td>68.6%</td>
-                <td>73.3%</td>
-                <td><strong>76.8%</strong></td>
-                <td>77.5%</td>
-              </tr>
-              <tr style="border-bottom: 2px solid #363636;">
-                <td>Size</td>
-                <td>6060(20.1%)</td>
-                <td>11922(39.5%)</td>
-                <td><strong>11526(38.2%)</strong></td>
-                <td>15125(50.5%)</td>
-                <td>21021(69.7%)</td>
-                <td><strong>21327(70.7%)</strong></td>
-                <td>30154(100%)</td>
-              </tr>
-
-              <!-- Real Section -->
-              <tr>
-                <td rowspan="6" style="vertical-align: middle; font-weight: bold; border-bottom: 2px solid #363636;">
-                  Real</td>
-                <td rowspan="2" style="vertical-align: middle;">Tray<br>Setting</td>
-                <td>Succ.</td>
-                <td>0.0%</td>
-                <td>46.7%</td>
-                <td><strong>60.0%</strong></td>
-                <td>53.3%</td>
-                <td>76.7%</td>
-                <td><strong>86.6%</strong></td>
-                <td>83.3%</td>
-              </tr>
-              <tr>
-                <td>Size</td>
-                <td>5335(21.0%)</td>
-                <td>11502(45.3%)</td>
-                <td><strong>11418(45.0%)</strong></td>
-                <td>12819(50.6%)</td>
-                <td>21516(84.9%)</td>
-                <td><strong>21527(84.9%)</strong></td>
-                <td>25350(100%)</td>
-              </tr>
-
-              <tr>
-                <td rowspan="2" style="vertical-align: middle;">Water<br>Stowing</td>
-                <td>Succ.</td>
-                <td>40.0%</td>
-                <td>53.3%</td>
-                <td><strong>56.7%</strong></td>
-                <td>63.3%</td>
-                <td><strong>70.0%</strong></td>
-                <td>70.0%</td>
-                <td>76.6%</td>
-              </tr>
-              <tr>
-                <td>Size</td>
-                <td>2108(20.5%)</td>
-                <td>4146(40.4%)</td>
-                <td><strong>4194(40.8%)</strong></td>
-                <td>5167(50.3%)</td>
-                <td><strong>7767(75.6%)</strong></td>
-                <td>7789(75.8%)</td>
-                <td>10269(100%)</td>
-              </tr>
-
-              <tr>
-                <td rowspan="2" style="vertical-align: middle; border-bottom: 2px solid #363636;">Book<br>Fetching</td>
-                <td>Succ.</td>
-                <td>46.7%</td>
-                <td>53.3%</td>
-                <td><strong>60.0%</strong></td>
-                <td>66.7%</td>
-                <td>76.7%</td>
-                <td><strong>93.3%</strong></td>
-                <td>93.3%</td>
-              </tr>
-              <tr style="border-bottom: 2px solid #363636;">
-                <td>Size</td>
-                <td>3661(19.7%)</td>
-                <td>7889(42.5%)</td>
-                <td><strong>7854(42.3%)</strong></td>
-                <td>9232(49.7%)</td>
-                <td>14886(80.1%)</td>
-                <td><strong>14921(80.3%)</strong></td>
-                <td>18578(100%)</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="content has-text-justified"
-          style="margin-top: 1rem; font-size: 0.9em; color: #555; max-width: 1000px; margin-left: auto; margin-right: auto;">
-          <p>
-            <strong>[1]</strong> Size(Ratio): Size refer to the total frames in the dataset. Ratio refer to the
-            proportion in the full dataset.
-            <br>
-            <strong>[2]</strong> Bold values indicate the
-            highest data efficiency (success
-            rate per unit of data) within each group.
-            <br>
-            <strong>[3]</strong> <code>base</code>: 20% of the full dataset; <code>A1</code>/<code>B1</code>: Randomly
-            sampled trajectories (size-matched to <code>A2</code>/<code>B2</code>); <code>A2</code>/<code>B2</code>:
-            TSD-expanded(real)/compressed(sim) datasets, integrating salient segments from a matching number of
-            trajectories as <code>A3</code> and <code>B3</code>, respectively; <code>A3</code>/<code>B3</code>: 50%
-            (<code>A</code>) and 100% (<code>B</code>) of the full dataset.
-          </p>
-        </div>
-      </div>
-
-      <style>
-        .task-tab-content {
-          display: none;
-        }
-
-        .task-tab-content.is-active {
-          display: block;
-        }
-
-        .task-block {
-          margin-bottom: 2rem;
-          padding: 1.5rem;
-          background-color: #f9f9f9;
-          border-radius: 12px;
-        }
-
-        .video-column p {
-          text-align: center;
-          margin-top: 0.5rem;
-          font-weight: 600;
-        }
-
-        .table.is-narrow td,
-        .table.is-narrow th {
-          padding: 0.25em 0.5em;
-        }
-      </style>
-
-      <script>
-        function switchTaskTab(taskName, tabName, element) {
-          var taskBlock = document.getElementById('task-' + taskName);
-
-          // Pause all videos within this task block
-          var allVideos = taskBlock.getElementsByTagName('video');
-          for (var i = 0; i < allVideos.length; i++) {
-            allVideos[i].pause();
-          }
-
-          var contents = taskBlock.getElementsByClassName('task-tab-content');
-          for (var i = 0; i < contents.length; i++) {
-            contents[i].classList.remove('is-active');
-          }
-
-          var activeContent = document.getElementById(taskName + '-' + tabName);
-          activeContent.classList.add('is-active');
-
-          // Play the videos within the newly active tab
-          var activeVideos = activeContent.getElementsByTagName('video');
-          for (var i = 0; i < activeVideos.length; i++) {
-            var v = activeVideos[i];
-            var needsLoad = false;
-            for (var j = 0; j < v.children.length; j++) {
-              var source = v.children[j];
-              if (source.tagName === 'SOURCE' && source.dataset.src) {
-                source.src = source.dataset.src;
-                source.removeAttribute('data-src');
-                needsLoad = true;
-              }
-            }
-            if (needsLoad) v.load();
-            v.play().catch(e => { console.log('Autoplay prevented by browser', e); });
-          }
-
-          var tabs = taskBlock.getElementsByTagName('li');
-          for (var i = 0; i < tabs.length; i++) {
-            tabs[i].classList.remove('is-active');
-          }
-          element.parentElement.classList.add('is-active');
-        }
-
-        // Initialize by pausing ALL videos inside .task-tab-content that do not have .is-active
-        document.addEventListener('DOMContentLoaded', (event) => {
-          var taskBlocks = document.getElementsByClassName('task-block');
-          for (var i = 0; i < taskBlocks.length; i++) {
-            var contents = taskBlocks[i].getElementsByClassName('task-tab-content');
-            for (var j = 0; j < contents.length; j++) {
-              if (!contents[j].classList.contains('is-active')) {
-                var hiddenVideos = contents[j].getElementsByTagName('video');
-                for (var k = 0; k < hiddenVideos.length; k++) {
-                  // Simply removing the preload="none" attribute so it doesn't auto-download massively 
-                  // or overriding it by pausing immediately
-                  hiddenVideos[k].pause();
-                }
-              }
-            }
-          }
-        });
-      </script>
-
-      <!-- Task: can -->
-      <div class="task-block" id="task-can">
-        <h3 class="title is-3 has-text-centered">can</h3>
-
-        <div class="tabs is-centered is-toggle is-small task-tabs">
-          <ul>
-            <li class="is-active"><a onclick="switchTaskTab('can', 'base', this)">Base</a></li>
-            <li><a onclick="switchTaskTab('can', 'groupA', this)">Group A</a></li>
-            <li><a onclick="switchTaskTab('can', 'groupB', this)">Group B</a></li>
-          </ul>
-        </div>
-
-        <!-- Base -->
-        <div id="can-base" class="task-tab-content is-active">
-          <div class="columns is-centered">
-            <div class="column is-4 video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/can/can_base.mp4"
-                  type="video/mp4">
-              </video>
-              <p>can - Base</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group A -->
-        <div id="can-groupA" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/can/can_35.mp4"
-                  type="video/mp4">
-              </video>
-              <p>can - Model A1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/can/can_cut50.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>can - Model A2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/can/can_50.mp4"
-                  type="video/mp4">
-              </video>
-              <p>can - Model A3</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group B -->
-        <div id="can-groupB" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/can/can_60.mp4"
-                  type="video/mp4">
-              </video>
-              <p>can - Model B1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/can/can_cut100.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>can - Model B2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/can/can_100.mp4"
-                  type="video/mp4">
-              </video>
-              <p>can - Model B3</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Task: lift -->
-      <div class="task-block" id="task-lift">
-        <h3 class="title is-3 has-text-centered">lift</h3>
-
-        <div class="tabs is-centered is-toggle is-small task-tabs">
-          <ul>
-            <li class="is-active"><a onclick="switchTaskTab('lift', 'base', this)">Base</a></li>
-            <li><a onclick="switchTaskTab('lift', 'groupA', this)">Group A</a></li>
-            <li><a onclick="switchTaskTab('lift', 'groupB', this)">Group B</a></li>
-          </ul>
-        </div>
-
-        <!-- Base -->
-        <div id="lift-base" class="task-tab-content is-active">
-          <div class="columns is-centered">
-            <div class="column is-4 video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/lift/lift_base.mp4"
-                  type="video/mp4">
-              </video>
-              <p>lift - Base</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group A -->
-        <div id="lift-groupA" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/lift/lift_35.mp4"
-                  type="video/mp4">
-              </video>
-              <p>lift - Model A1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/lift/lift_cut50.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>lift - Model A2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/lift/lift_50.mp4"
-                  type="video/mp4">
-              </video>
-              <p>lift - Model A3</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group B -->
-        <div id="lift-groupB" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/lift/lift_60.mp4"
-                  type="video/mp4">
-              </video>
-              <p>lift - Model B1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/lift/lift_cut100.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>lift - Model B2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/lift/lift_100.mp4"
-                  type="video/mp4">
-              </video>
-              <p>lift - Model B3</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Task: transport -->
-      <div class="task-block" id="task-transport">
-        <h3 class="title is-3 has-text-centered">transport</h3>
-
-        <div class="tabs is-centered is-toggle is-small task-tabs">
-          <ul>
-            <li class="is-active"><a onclick="switchTaskTab('transport', 'base', this)">Base</a></li>
-            <li><a onclick="switchTaskTab('transport', 'groupA', this)">Group A</a></li>
-            <li><a onclick="switchTaskTab('transport', 'groupB', this)">Group B</a></li>
-          </ul>
-        </div>
-
-        <!-- Base -->
-        <div id="transport-base" class="task-tab-content is-active">
-          <div class="columns is-centered">
-            <div class="column is-4 video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/transport/transport_base.mp4"
-                  type="video/mp4">
-              </video>
-              <p>transport - Base</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group A -->
-        <div id="transport-groupA" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/transport/transport_42.mp4"
-                  type="video/mp4">
-              </video>
-              <p>transport - Model A1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/transport/transport_cut50.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>transport - Model A2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/transport/transport_50.mp4"
-                  type="video/mp4">
-              </video>
-              <p>transport - Model A3</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group B -->
-        <div id="transport-groupB" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/transport/transport_84.mp4"
-                  type="video/mp4">
-              </video>
-              <p>transport - Model B1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/transport/transport_cut100.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>transport - Model B2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/transport/transport_100.mp4"
-                  type="video/mp4">
-              </video>
-              <p>transport - Model B3</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Task: tool hang -->
-      <div class="task-block" id="task-tool-hang">
-        <h3 class="title is-3 has-text-centered">tool hang</h3>
-
-        <div class="tabs is-centered is-toggle is-small task-tabs">
-          <ul>
-            <li class="is-active"><a onclick="switchTaskTab('tool-hang', 'base', this)">Base</a></li>
-            <li><a onclick="switchTaskTab('tool-hang', 'groupA', this)">Group A</a></li>
-            <li><a onclick="switchTaskTab('tool-hang', 'groupB', this)">Group B</a></li>
-          </ul>
-        </div>
-
-        <!-- Base -->
-        <div id="tool-hang-base" class="task-tab-content is-active">
-          <div class="columns is-centered">
-            <div class="column is-4 video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/toolhang/toolhang_base.mp4"
-                  type="video/mp4">
-              </video>
-              <p>tool hang - Base</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group A -->
-        <div id="tool-hang-groupA" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/toolhang/toolhang_40.mp4"
-                  type="video/mp4">
-              </video>
-              <p>tool hang - Model A1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/toolhang/toolhang_cut50.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>tool hang - Model A2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/toolhang/toolhang_50.mp4"
-                  type="video/mp4">
-              </video>
-              <p>tool hang - Model A3</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group B -->
-        <div id="tool-hang-groupB" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/toolhang/toolhang_70.mp4"
-                  type="video/mp4">
-              </video>
-              <p>tool hang - Model B1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/toolhang/toolhang_cut100.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>tool hang - Model B2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/toolhang/toolhang_100.mp4"
-                  type="video/mp4">
-              </video>
-              <p>tool hang - Model B3</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Task: square -->
-      <div class="task-block" id="task-square">
-        <h3 class="title is-3 has-text-centered">square</h3>
-
-        <div class="tabs is-centered is-toggle is-small task-tabs">
-          <ul>
-            <li class="is-active"><a onclick="switchTaskTab('square', 'base', this)">Base</a></li>
-            <li><a onclick="switchTaskTab('square', 'groupA', this)">Group A</a></li>
-            <li><a onclick="switchTaskTab('square', 'groupB', this)">Group B</a></li>
-          </ul>
-        </div>
-
-        <!-- Base -->
-        <div id="square-base" class="task-tab-content is-active">
-          <div class="columns is-centered">
-            <div class="column is-4 video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/square/square_base.mp4"
-                  type="video/mp4">
-              </video>
-              <p>Square - Base</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group A -->
-        <div id="square-groupA" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/square/square_40.mp4"
-                  type="video/mp4">
-              </video>
-              <p>square - Model A1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/square/square_cut50.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>square - Model A2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/square/square_50.mp4"
-                  type="video/mp4">
-              </video>
-              <p>square - Model A3</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group B -->
-        <div id="square-groupB" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/square/square_70.mp4"
-                  type="video/mp4">
-              </video>
-              <p>square - Model B1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/square/square_cut100.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>square - Model B2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/square/square_100.mp4"
-                  type="video/mp4">
-              </video>
-              <p>square - Model B3</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Task: book fetching -->
-      <div class="task-block" id="task-book-fetching">
-        <h3 class="title is-3 has-text-centered">book fetching</h3>
-
-        <div class="tabs is-centered is-toggle is-small task-tabs">
-          <ul>
-            <li class="is-active"><a onclick="switchTaskTab('book-fetching', 'base', this)">Base</a></li>
-            <li><a onclick="switchTaskTab('book-fetching', 'groupA', this)">Group A</a></li>
-            <li><a onclick="switchTaskTab('book-fetching', 'groupB', this)">Group B</a></li>
-          </ul>
-        </div>
-
-        <!-- Base -->
-        <div id="book-fetching-base" class="task-tab-content is-active">
-          <div class="columns is-centered">
-            <div class="column is-4 video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/bookfetching/book_20.mp4"
-                  type="video/mp4">
-              </video>
-              <p>Book Fetching - Base</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group A -->
-        <div id="book-fetching-groupA" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/bookfetching/book_43.mp4"
-                  type="video/mp4">
-              </video>
-              <p>book fetching - Model A1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/bookfetching/book_cut50.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>book fetching - Model A2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/bookfetching/book_50.mp4"
-                  type="video/mp4">
-              </video>
-              <p>book fetching - Model A3</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group B -->
-        <div id="book-fetching-groupB" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/bookfetching/book_80.mp4"
-                  type="video/mp4">
-              </video>
-              <p>book fetching - Model B1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/bookfetching/book_cut100.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>book fetching - Model B2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/bookfetching/book_100.mp4"
-                  type="video/mp4">
-              </video>
-              <p>book fetching - Model B3</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Task: water stowing -->
-      <div class="task-block" id="task-water-stowing">
-        <h3 class="title is-3 has-text-centered">water stowing</h3>
-
-        <div class="tabs is-centered is-toggle is-small task-tabs">
-          <ul>
-            <li class="is-active"><a onclick="switchTaskTab('water-stowing', 'base', this)">Base</a></li>
-            <li><a onclick="switchTaskTab('water-stowing', 'groupA', this)">Group A</a></li>
-            <li><a onclick="switchTaskTab('water-stowing', 'groupB', this)">Group B</a></li>
-          </ul>
-        </div>
-
-        <!-- Base -->
-        <div id="water-stowing-base" class="task-tab-content is-active">
-          <div class="columns is-centered">
-            <div class="column is-4 video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/waterstowing/shop_20.mp4"
-                  type="video/mp4">
-              </video>
-              <p>Water Stowing - Base</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group A -->
-        <div id="water-stowing-groupA" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/waterstowing/shop_41.mp4"
-                  type="video/mp4">
-              </video>
-              <p>water stowing - Model A1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/waterstowing/shop_cut50.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>water stowing - Model A2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/waterstowing/shop_50.mp4"
-                  type="video/mp4">
-              </video>
-              <p>water stowing - Model A3</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group B -->
-        <div id="water-stowing-groupB" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/waterstowing/shop_76.mp4"
-                  type="video/mp4">
-              </video>
-              <p>water stowing - Model B1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/waterstowing/shop_cut100.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>water stowing - Model B2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/waterstowing/shop_100.mp4"
-                  type="video/mp4">
-              </video>
-              <p>water stowing - Model B3</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Task: tray setting -->
-      <div class="task-block" id="task-tray-setting">
-        <h3 class="title is-3 has-text-centered">tray setting</h3>
-
-        <div class="tabs is-centered is-toggle is-small task-tabs">
-          <ul>
-            <li class="is-active"><a onclick="switchTaskTab('tray-setting', 'base', this)">Base</a></li>
-            <li><a onclick="switchTaskTab('tray-setting', 'groupA', this)">Group A</a></li>
-            <li><a onclick="switchTaskTab('tray-setting', 'groupB', this)">Group B</a></li>
-          </ul>
-        </div>
-
-        <!-- Base -->
-        <div id="tray-setting-base" class="task-tab-content is-active">
-          <div class="columns is-centered">
-            <div class="column is-4 video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/traysetting/tray_20.mp4"
-                  type="video/mp4">
-              </video>
-              <p>Tray Setting - Base</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group A -->
-        <div id="tray-setting-groupA" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/traysetting/tray_45.mp4"
-                  type="video/mp4">
-              </video>
-              <p>tray setting - Model A1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/traysetting/tray_cut50.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>tray setting - Model A2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/traysetting/tray_50.mp4"
-                  type="video/mp4">
-              </video>
-              <p>tray setting - Model A3</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Group B -->
-        <div id="tray-setting-groupB" class="task-tab-content">
-          <div class="columns is-centered">
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/traysetting/tray_85.mp4"
-                  type="video/mp4">
-              </video>
-              <p>tray setting - Model B1</p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/traysetting/tray_cut100.mp4"
-                  type="video/mp4">
-              </video>
-              <p><strong>tray setting - Model B2 (Ours)</strong></p>
-            </div>
-            <div class="column video-column">
-              <video preload="none" controls muted loop playsinline width="100%">
-                <source
-                  data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/traysetting/tray_100.mp4"
-                  type="video/mp4">
-              </video>
-              <p>tray setting - Model B3</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container is-max-desktop">
-
-      <h2 class="title is-2 has-text-centered">TSD Test Results Visualization</h2>
-
-      <!-- task: can -->
-      <div class="columns is-centered">
-        <div class="column is-12">
-          <h2 class="title is-3 has-text-centered">can</h2>
-          <div class="columns is-centered">
-            <div class="column is-8" style="display: flex;">
-              <div class="box" style="width: 100%;">
-                <figure class="image">
-                  <img src="./static/images/qualitative/can.png" alt="can" class="qualitative-img">
-                </figure>
-                <p class="has-text-centered mt-4"><strong>can</strong></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- task: lift -->
-      <div class="columns is-centered">
-        <div class="column is-12">
-          <h2 class="title is-3 has-text-centered">lift</h2>
-          <div class="columns is-centered">
-            <div class="column is-8" style="display: flex;">
-              <div class="box" style="width: 100%;">
-                <figure class="image">
-                  <img src="./static/images/qualitative/lift.png" alt="lift" class="qualitative-img">
-                </figure>
-                <p class="has-text-centered mt-4"><strong>lift</strong></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- task: tool hang -->
-      <div class="columns is-centered">
-        <div class="column is-12">
-          <h2 class="title is-3 has-text-centered">tool hang</h2>
-          <div class="columns is-centered">
-            <div class="column is-8" style="display: flex;">
-              <div class="box" style="width: 100%;">
-                <figure class="image">
-                  <img src="./static/images/qualitative/toolhang.png" alt="tool hang" class="qualitative-img">
-                </figure>
-                <p class="has-text-centered mt-4"><strong>tool hang</strong></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- task: square -->
-      <div class="columns is-centered">
-        <div class="column is-12">
-          <h2 class="title is-3 has-text-centered">square</h2>
-          <div class="columns is-centered">
-            <div class="column is-8" style="display: flex;">
-              <div class="box" style="width: 100%;">
-                <figure class="image">
-                  <img src="./static/images/qualitative/square.png" alt="square" class="qualitative-img">
-                </figure>
-                <p class="has-text-centered mt-4"><strong>square</strong></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- task: transport -->
-      <div class="columns is-centered">
-        <div class="column is-12">
-          <h2 class="title is-3 has-text-centered">transport</h2>
-          <div class="columns is-centered">
-            <div class="column is-6" style="display: flex;">
-              <div class="box" style="width: 100%;">
-                <figure class="image">
-                  <img src="./static/images/qualitative/transport0.png" alt="transport (left arm)"
-                    class="qualitative-img">
-                </figure>
-                <p class="has-text-centered mt-4"><strong>transport (left arm)</strong></p>
-              </div>
-            </div>
-            <div class="column is-6" style="display: flex;">
-              <div class="box" style="width: 100%;">
-                <figure class="image">
-                  <img src="./static/images/qualitative/transport1.png" alt="transport (right arm)"
-                    class="qualitative-img">
-                </figure>
-                <p class="has-text-centered mt-4"><strong>transport (right arm)</strong></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- task: book fetching -->
-      <div class="columns is-centered">
-        <div class="column is-12">
-          <h2 class="title is-3 has-text-centered">book fetching</h2>
-          <div class="columns is-centered">
-            <div class="column is-8" style="display: flex;">
-              <div class="box" style="width: 100%;">
-                <figure class="image">
-                  <img src="./static/images/qualitative/book.png" alt="book fetching" class="qualitative-img">
-                </figure>
-                <p class="has-text-centered mt-4"><strong>book fetching</strong></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- task: water stowing -->
-      <div class="columns is-centered">
-        <div class="column is-12">
-          <h2 class="title is-3 has-text-centered">water stowing</h2>
-          <div class="columns is-centered">
-            <div class="column is-8" style="display: flex;">
-              <div class="box" style="width: 100%;">
-                <figure class="image">
-                  <img src="./static/images/qualitative/shop.png" alt="water stowing" class="qualitative-img">
-                </figure>
-                <p class="has-text-centered mt-4"><strong>water stowing</strong></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- task: tray setting -->
-      <div class="columns is-centered">
-        <div class="column is-12">
-          <h2 class="title is-3 has-text-centered">tray setting</h2>
-          <div class="columns is-centered">
-            <div class="column is-6" style="display: flex;">
-              <div class="box" style="width: 100%;">
-                <figure class="image">
-                  <img src="./static/images/qualitative/tray0.png" alt="tray setting (left arm)"
-                    class="qualitative-img">
-                </figure>
-                <p class="has-text-centered mt-4"><strong>left arm</strong></p>
-              </div>
-            </div>
-            <div class="column is-6" style="display: flex;">
-              <div class="box" style="width: 100%;">
-                <figure class="image">
-                  <img src="./static/images/qualitative/tray1.png" alt="tray setting (right arm)"
-                    class="qualitative-img">
-                </figure>
-                <p class="has-text-centered mt-4"><strong>right arm</strong></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container is-max-desktop">
-      <h2 class="title is-2 has-text-centered">Ablation Study</h2>
-
-      <h3 class="title is-3 has-text-centered">Ablation Experiments Results</h3>
-      <div class="content has-text-centered">
-
-        <div class="table-container" style="overflow-x: auto;">
-          <table class="table is-bordered is-hoverable is-narrow has-text-centered"
-            style="margin: 0 auto; width: 100%; max-width: 900px; font-size: 0.85em;">
-            <thead>
-              <tr
-                style="border-top: 2px solid #363636; border-bottom: 2px solid #363636; font-weight: bold; background-color: #f5f5f5;">
-                <td colspan="2" style="vertical-align: middle;">Model</td>
-                <td style="vertical-align: middle;">B2 (Ours)</td>
-                <td style="vertical-align: middle;">C1</td>
-                <td style="vertical-align: middle;">C2</td>
-                <td style="vertical-align: middle;">D1</td>
-                <td style="vertical-align: middle;">D2</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td rowspan="2" style="vertical-align: middle; border-bottom: 2px solid #363636;">Book<br>Fetching</td>
-                <td>Succ.</td>
-                <td>93.3%</td>
-                <td><strong>70.0%</strong></td>
-                <td>63.3%</td>
-                <td><strong>50.0%</strong></td>
-                <td>40.0%</td>
-              </tr>
-              <tr style="border-bottom: 2px solid #363636;">
-                <td>Size</td>
-                <td>14921</td>
-                <td><strong>13015</strong></td>
-                <td>12938</td>
-                <td><strong>7110</strong></td>
-                <td>7220</td>
-              </tr>
-              <tr>
-                <td rowspan="2" style="vertical-align: middle; border-bottom: 2px solid #363636;">Tool<br>Hang</td>
-                <td>Succ.</td>
-                <td>56.8%</td>
-                <td>46.2%</td>
-                <td><strong>52.9%</strong></td>
-                <td><strong>30%</strong></td>
-                <td>16%</td>
-              </tr>
-              <tr style="border-bottom: 2px solid #363636;">
-                <td>Size</td>
-                <td>64237</td>
-                <td>60930</td>
-                <td><strong>62283</strong></td>
-                <td><strong>22870</strong></td>
-                <td>22179</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="content has-text-justified"
-          style="margin-top: 1rem; font-size: 0.9em; color: #555; max-width: 1000px; margin-left: auto; margin-right: auto;">
-          <p>
-            <strong>[1]</strong> Size: Size refer to the total frames in the dataset.<br>
-            <strong>[2]</strong> Bold values indicate the
-            highest data efficiency (success
-            rate per unit of data) within each group.
-            <br>
-            <strong>[3]</strong> <code>C1</code>: a complete dataset of the same size as <code>C2</code>;<br>
-            <strong>[4]</strong> <code>C2</code>: <code>B2</code> without agile segments;<br>
-            <strong>[5]</strong> <code>D1</code>: a complete dataset of the same size as <code>D2</code>;<br>
-            <strong>[6]</strong> <code>D2</code>: <code>B2</code> without precise segments.
-          </p>
-        </div>
-      </div>
-
-      <h3 class="title is-3 has-text-centered">Visualization</h3>
-      <div class="content">
-
-        <p>
-          Typical failures of models trained on datasets lacking specific segments.
-        <ul>
-          <li><strong>Dataset w/o. agile segments</strong>: The model struggles to navigate around obstacles, leading to
-            collisions and
-            task failures.</li>
-          <li><strong>Dataset w/o. precise segments</strong>: The model fails to grasp objects accurately, resulting in
-            dropped items and
-            unsuccessful task completion.</li>
-        </ul>
-        </p>
-
-        <div class="columns is-centered">
-          <div class="column is-12">
-            <div class="columns is-centered is-multiline">
-              <div class="column is-6" style="display: flex;">
-                <div class="box" style="flex: 1; display: flex; flex-direction: column;">
-                  <h4 class="title is-4 has-text-centered">Dataset w/o. agile segments</h4>
-                  <figure class="image" style="flex: 1; display: flex; align-items: center;">
-                    <img src="./static/images/problem_only_precision.png" alt="problem_only_precision"
-                      style="width: 100%; height: auto;">
-                  </figure>
+    <main id="top">
+        <section class="hero shell">
+            <p class="eyebrow">Anonymous project page</p>
+            <h1>TSD: A Kinematics-Based Trajectory Saliency Detector for Data Efficient Robot Imitation Learning</h1>
+            <p class="authors">Anonymous Authors</p>
+            <p class="lead">Detecting precise and agile phases from demonstration kinematics for informative dataset
+                compression and targeted data collection.</p>
+            <div class="hero-actions">
+                <a class="button primary" href="./static/paper.pdf">Paper</a>
+                <a class="button primary" href="./static/paper.pdf">Code</a>
+            </div>
+        </section>
+
+        <section class="section shell narrow teaser-section" aria-labelledby="teaser-title">
+            <h2 id="teaser-title" class="sr-only">Overview video</h2>
+            <div class="media-frame hero-video overview-placeholder">
+                <img src="./static/images/bigpicture.png" alt="Overview of the TSD framework">
+            </div>
+            <p class="media-note">TSD finds precise interactions and agile redirections, then uses these phases to
+                retain or collect informative demonstration data.</p>
+        </section>
+
+        <section class="section shell narrow" id="abstract">
+            <div class="section-heading">
+                <p class="kicker">Paper</p>
+                <h2>Abstract</h2>
+            </div>
+            <p class="abstract-text">Robot imitation learning relies on expert demonstrations, yet collecting complete
+                trajectories is labor-intensive and training on every transition is computationally costly. Most
+                pipelines allocate both budgets at the trajectory level, overlooking the distinct spatial and dynamic
+                characteristics of task phases. We present the Trajectory Saliency Detector (TSD), a training-free
+                method that identifies precise and agile phases directly from demonstration kinematics. TSD aligns
+                demonstrations, detects precise operations from cross-demonstration pose dispersion, and locates agile
+                maneuvers using centripetal acceleration. The detected phases support dataset compression by combining
+                complete base demonstrations with salient source segments, and dataset expansion by collecting local
+                demonstrations at identified phases. Across five simulated tasks with two policy architectures, TSD uses
+                25.4--32.0% fewer transitions and reduces policy-training time by 13.4--26.4% relative to the
+                corresponding complete datasets. Its average success remains within 1.5 percentage points of full-data
+                performance or exceeds it, while outperforming all comparable-budget baselines. Across three real-world
+                tasks, TSD-guided collection outperforms matched-budget complete-trajectory collection, approaches
+                full-data performance, and reduces collection time by 15.2%. These results show that phase-level
+                trajectory saliency enables more efficient allocation of demonstration and training resources.</p>
+        </section>
+
+        <section class="section section-tint" id="overview">
+            <div class="shell">
+                <div class="section-heading centered">
+                    <p class="kicker">Framework</p>
+                    <h2>One detector, two data-efficient usages</h2>
+                    <p>TSD identifies salient phases directly from aligned trajectory kinematics and applies the same
+                        detections to dataset compression and expansion.</p>
                 </div>
-              </div>
-              <div class="column is-6" style="display: flex;">
-                <div class="box" style="flex: 1; display: flex; flex-direction: column;">
-                  <h4 class="title is-4 has-text-centered">Dataset w/o. precise segments</h4>
-                  <figure class="image" style="flex: 1; display: flex; align-items: center;">
-                    <img src="./static/images/problem_only_agility.png" alt="problem_only_agility"
-                      style="width: 100%; height: auto;">
-                  </figure>
+                <figure class="paper-figure wide-figure">
+                    <img src="./static/images/bigpicture.png"
+                        alt="TSD framework showing precise and agile segment detection, dataset compression, and dataset expansion">
+                    <figcaption>Precise segments are identified from cross-demonstration pose dispersion. Agile segments
+                        are identified from centripetal acceleration with geometric verification.</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="section shell" id="method">
+            <div class="section-heading centered">
+                <p class="kicker">Method</p>
+                <h2>Detecting salient trajectory phases</h2>
+            </div>
+            <div class="method-grid">
+                <article class="method-card precise-card">
+                    <div class="method-label precise-label">Precise</div>
+                    <h3>Cross-demonstration pose convergence</h3>
+                    <p>After pose-aware temporal alignment, TSD measures local end-effector pose dispersion across
+                        demonstrations. Concentrated, low-speed regions provide evidence of spatially constrained
+                        operations such as grasping and placement.</p>
+                </article>
+                <article class="method-card agile-card">
+                    <div class="method-label agile-label">Agile</div>
+                    <h3>Dynamic response with geometric verification</h3>
+                    <p>Centripetal acceleration captures rapid changes in motion direction. RDP points and trajectory
+                        tortuosity provide geometric verification that suppresses derivative-induced spurious peaks.</p>
+                </article>
+            </div>
+            <figure class="paper-figure qualitative-figure">
+                <img src="./static/images/vis.png" alt="Precise and agile segments detected in the Book Fetching task">
+                <figcaption><strong>Qualitative localization on Book Fetching.</strong> Precise intervals are shown in
+                    red and agile intervals in green. TSD identifies grasping and placement as precise phases and
+                    obstacle avoidance as an agile phase.</figcaption>
+            </figure>
+
+            <div class="subsection-block detection-browser" data-viewer="detection">
+                <h3>Detection results across tasks</h3>
+                <p>Select a task to inspect the corresponding precise and agile detections. For bimanual tasks, the arm
+                    selector switches between the two detection outputs.</p>
+                <div class="selector-row">
+                    <label for="detection-task">Task</label>
+                    <select id="detection-task">
+                        <option value="can">Can</option>
+                        <option value="lift">Lift</option>
+                        <option value="square">Square</option>
+                        <option value="toolhang">Tool Hang</option>
+                        <option value="transport">Transport</option>
+                        <option value="book">Book Fetching</option>
+                        <option value="shop">Water Stowing</option>
+                        <option value="tray">Tray Setting</option>
+                    </select>
+                    <div class="arm-controls" id="detection-arm-controls" hidden>
+                        <span>Arm</span>
+                        <button class="chip active" data-arm="0">Left</button>
+                        <button class="chip" data-arm="1">Right</button>
+                    </div>
                 </div>
-              </div>
+                <figure class="detection-viewer">
+                    <img id="detection-image" src="./static/images/detection/can.png"
+                        alt="TSD detection result for Can">
+                    <figcaption id="detection-caption">Can</figcaption>
+                </figure>
             </div>
-          </div>
+        </section>
+
+        <section class="section section-tint" id="setup">
+            <div class="shell">
+                <div class="section-heading centered">
+                    <p class="kicker">Evaluation</p>
+                    <h2>Experimental setup</h2>
+                    <p>Five robomimic simulation tasks evaluate dataset compression with Diffusion Policy (DP) and ACT.
+                        Three real-world tasks evaluate TSD-guided dataset expansion with DP.</p>
+                </div>
+                <figure class="paper-figure wide-figure compact-figure">
+                    <img src="./static/images/exp_setting.png"
+                        alt="Five simulation tasks and three real-world manipulation tasks">
+                    <figcaption>Simulation success is evaluated over 450 randomized rollouts per condition; real-world
+                        success is evaluated over 30 trials per condition. Every policy is trained for 1,200 epochs on
+                        its corresponding dataset.</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="section shell" id="simulation">
+            <div class="section-heading">
+                <p class="kicker">Dataset compression</p>
+                <h2>Simulation results</h2>
+                <p>TSD reduces the number of retained transitions while preserving the performance of the corresponding
+                    complete datasets. Budget-controlled comparisons test whether the retained phases are more
+                    informative than randomly or retrospectively selected data.</p>
+            </div>
+
+            <div class="table-card">
+                <div class="table-caption"><strong>Simulation success rates (%) for DP and ACT.</strong> Results use 450
+                    randomized rollouts per condition. Ret. is the mean percentage of Full-100 transitions retained
+                    across the five tasks. TSD rows are highlighted, and the best budget-matched average is bold.</div>
+                <div class="table-scroll">
+                    <table class="data-table simulation-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Pool</th>
+                                <th rowspan="2">Dataset</th>
+                                <th rowspan="2">Ret. ↓</th>
+                                <th colspan="6">DP</th>
+                                <th colspan="6">ACT</th>
+                            </tr>
+                            <tr>
+                                <th>Lift</th>
+                                <th>Can</th>
+                                <th>Square</th>
+                                <th>Tool</th>
+                                <th>Trans.</th>
+                                <th>Avg. ↑</th>
+                                <th>Lift</th>
+                                <th>Can</th>
+                                <th>Square</th>
+                                <th>Tool</th>
+                                <th>Trans.</th>
+                                <th>Avg. ↑</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>20</td>
+                                <td>Base</td>
+                                <td>20.1</td>
+                                <td>96.6</td>
+                                <td>53.3</td>
+                                <td>11.1</td>
+                                <td>5.1</td>
+                                <td>24.6</td>
+                                <td>38.1</td>
+                                <td>96.4</td>
+                                <td>41.8</td>
+                                <td>11.8</td>
+                                <td>10.4</td>
+                                <td>62.2</td>
+                                <td>44.5</td>
+                            </tr>
+                            <tr class="group-start">
+                                <td rowspan="6">50</td>
+                                <td>Random-Traj</td>
+                                <td>38.0</td>
+                                <td>98.8</td>
+                                <td>72.8</td>
+                                <td>66.2</td>
+                                <td>35.7</td>
+                                <td>49.5</td>
+                                <td>64.6</td>
+                                <td>98.7</td>
+                                <td>64.9</td>
+                                <td>32.7</td>
+                                <td>25.1</td>
+                                <td>66.9</td>
+                                <td>57.6</td>
+                            </tr>
+                            <tr>
+                                <td>Random-Seg</td>
+                                <td>37.2</td>
+                                <td>96.2</td>
+                                <td>66.2</td>
+                                <td>24.4</td>
+                                <td>27.6</td>
+                                <td>59.1</td>
+                                <td>54.7</td>
+                                <td>99.8</td>
+                                <td>49.8</td>
+                                <td>26.7</td>
+                                <td>14.0</td>
+                                <td>46.9</td>
+                                <td>47.4</td>
+                            </tr>
+                            <tr>
+                                <td>IWR</td>
+                                <td>39.6</td>
+                                <td>98.7</td>
+                                <td>79.1</td>
+                                <td>64.2</td>
+                                <td>18.7</td>
+                                <td>60.2</td>
+                                <td>64.2</td>
+                                <td>99.6</td>
+                                <td>68.4</td>
+                                <td>37.6</td>
+                                <td>15.3</td>
+                                <td>66.4</td>
+                                <td>57.5</td>
+                            </tr>
+                            <tr>
+                                <td>DemInf</td>
+                                <td>37.7</td>
+                                <td>99.1</td>
+                                <td>81.6</td>
+                                <td>64.7</td>
+                                <td>20.4</td>
+                                <td>56.4</td>
+                                <td>64.4</td>
+                                <td>99.6</td>
+                                <td>66.9</td>
+                                <td>40.7</td>
+                                <td>13.6</td>
+                                <td>79.3</td>
+                                <td>60.0</td>
+                            </tr>
+                            <tr class="ours">
+                                <td><strong>TSD</strong></td>
+                                <td>37.2</td>
+                                <td>99.3</td>
+                                <td>82.0</td>
+                                <td>68.8</td>
+                                <td>35.7</td>
+                                <td>69.5</td>
+                                <td><strong>71.1</strong></td>
+                                <td>100.0</td>
+                                <td>73.8</td>
+                                <td>41.1</td>
+                                <td>33.3</td>
+                                <td>76.7</td>
+                                <td><strong>65.0</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Full-50</td>
+                                <td>49.9</td>
+                                <td>98.6</td>
+                                <td>83.1</td>
+                                <td>68.6</td>
+                                <td>36.4</td>
+                                <td>73.3</td>
+                                <td>72.0</td>
+                                <td>99.8</td>
+                                <td>72.0</td>
+                                <td>38.7</td>
+                                <td>28.7</td>
+                                <td>70.4</td>
+                                <td>61.9</td>
+                            </tr>
+                            <tr class="group-start">
+                                <td rowspan="6">100</td>
+                                <td>Random-Traj</td>
+                                <td>68.5</td>
+                                <td>98.6</td>
+                                <td>91.7</td>
+                                <td>73.3</td>
+                                <td>46.6</td>
+                                <td>88.8</td>
+                                <td>79.8</td>
+                                <td>99.6</td>
+                                <td>80.2</td>
+                                <td>53.1</td>
+                                <td>35.3</td>
+                                <td>81.3</td>
+                                <td>69.9</td>
+                            </tr>
+                            <tr>
+                                <td>Random-Seg</td>
+                                <td>68.7</td>
+                                <td>98.2</td>
+                                <td>86.2</td>
+                                <td>38.2</td>
+                                <td>33.3</td>
+                                <td>73.1</td>
+                                <td>65.8</td>
+                                <td>100.0</td>
+                                <td>67.8</td>
+                                <td>45.8</td>
+                                <td>20.7</td>
+                                <td>51.3</td>
+                                <td>57.1</td>
+                            </tr>
+                            <tr>
+                                <td>IWR</td>
+                                <td>69.1</td>
+                                <td>99.6</td>
+                                <td>90.4</td>
+                                <td>73.6</td>
+                                <td>40.0</td>
+                                <td>88.7</td>
+                                <td>78.4</td>
+                                <td>100.0</td>
+                                <td>86.0</td>
+                                <td>52.4</td>
+                                <td>27.1</td>
+                                <td>72.0</td>
+                                <td>67.5</td>
+                            </tr>
+                            <tr>
+                                <td>DemInf</td>
+                                <td>68.8</td>
+                                <td>99.8</td>
+                                <td>90.2</td>
+                                <td>73.3</td>
+                                <td>49.6</td>
+                                <td>92.0</td>
+                                <td>81.0</td>
+                                <td>99.8</td>
+                                <td>83.1</td>
+                                <td>56.1</td>
+                                <td>30.9</td>
+                                <td>78.9</td>
+                                <td>69.8</td>
+                            </tr>
+                            <tr class="ours">
+                                <td><strong>TSD</strong></td>
+                                <td>68.0</td>
+                                <td>99.7</td>
+                                <td>92.0</td>
+                                <td>76.8</td>
+                                <td>56.8</td>
+                                <td>95.3</td>
+                                <td><strong>84.1</strong></td>
+                                <td>100.0</td>
+                                <td>90.7</td>
+                                <td>61.3</td>
+                                <td>46.9</td>
+                                <td>81.8</td>
+                                <td><strong>76.1</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Full-100</td>
+                                <td>100.0</td>
+                                <td>99.3</td>
+                                <td>93.7</td>
+                                <td>77.5</td>
+                                <td>58.6</td>
+                                <td>89.3</td>
+                                <td>83.7</td>
+                                <td>100.0</td>
+                                <td>90.9</td>
+                                <td>66.7</td>
+                                <td>48.2</td>
+                                <td>82.4</td>
+                                <td>77.6</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="video-panel" data-comparison="simulation">
+                <div class="video-panel-header">
+                    <div>
+                        <h3>Policy rollouts</h3>
+                        <p>Compare policies trained on TSD segments and the corresponding complete dataset.</p>
+                    </div>
+                    <div class="control-groups">
+                        <div class="control-group" aria-label="Policy">
+                            <span>Policy</span>
+                            <button class="chip active" data-control="policy" data-value="dp">DP</button>
+                            <button class="chip" data-control="policy" data-value="act">ACT</button>
+                        </div>
+                        <div class="control-group" aria-label="Pool">
+                            <span>Pool</span>
+                            <button class="chip active" data-control="pool" data-value="50">50%</button>
+                            <button class="chip" data-control="pool" data-value="100">100%</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="task-tabs" role="tablist" aria-label="Simulation task">
+                    <button class="task-tab active" data-control="task" data-value="lift">Lift</button>
+                    <button class="task-tab" data-control="task" data-value="can">Can</button>
+                    <button class="task-tab" data-control="task" data-value="square">Square</button>
+                    <button class="task-tab" data-control="task" data-value="toolhang">Tool Hang</button>
+                    <button class="task-tab" data-control="task" data-value="transport">Transport</button>
+                </div>
+                <div class="video-compare">
+                    <figure class="video-card">
+                        <figcaption><span class="legend-dot tsd-dot"></span><strong id="sim-tsd-label">TSD-50</strong>
+                        </figcaption>
+                        <video id="sim-tsd-video" controls muted loop playsinline preload="none"></video>
+                    </figure>
+                    <figure class="video-card">
+                        <figcaption><span class="legend-dot full-dot"></span><strong
+                                id="sim-full-label">Full-50</strong></figcaption>
+                        <video id="sim-full-video" controls muted loop playsinline preload="none"></video>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-tint" id="real-world">
+            <div class="shell">
+                <div class="section-heading">
+                    <p class="kicker">Targeted data collection</p>
+                    <h2>Real-world results</h2>
+                    <p>TSD identifies where additional local demonstrations should be collected. The resulting datasets
+                        are compared with transition-matched complete-trajectory collection and the corresponding
+                        complete-data references.</p>
+                </div>
+
+                <div class="real-table-grid">
+                    <div class="table-card">
+                        <div class="table-caption"><strong>Real-world dataset expansion with DP.</strong> Success rates
+                            use 30 trials per condition; size is the percentage of task-specific Full-100 transitions.
+                        </div>
+                        <div class="table-scroll">
+                            <table class="data-table real-table">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">Task</th>
+                                        <th rowspan="2">Metric</th>
+                                        <th rowspan="2">Base</th>
+                                        <th colspan="3">50% pool</th>
+                                        <th colspan="3">100% pool</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Rand.-Traj</th>
+                                        <th class="ours-head">TSD</th>
+                                        <th>Full</th>
+                                        <th>Rand.-Traj</th>
+                                        <th class="ours-head">TSD</th>
+                                        <th>Full</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="2">Tray Setting</td>
+                                        <td>Suc. (%) ↑</td>
+                                        <td>0.0</td>
+                                        <td>46.7</td>
+                                        <td class="ours-cell"><strong>60.0</strong></td>
+                                        <td>53.3</td>
+                                        <td>76.7</td>
+                                        <td class="ours-cell"><strong>86.6</strong></td>
+                                        <td>83.3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Size (%) ↓</td>
+                                        <td>21.0</td>
+                                        <td>45.3</td>
+                                        <td class="ours-cell">45.0</td>
+                                        <td>50.6</td>
+                                        <td>84.9</td>
+                                        <td class="ours-cell">84.9</td>
+                                        <td>100.0</td>
+                                    </tr>
+                                    <tr class="group-start">
+                                        <td rowspan="2">Water Stowing</td>
+                                        <td>Suc. (%) ↑</td>
+                                        <td>40.0</td>
+                                        <td>53.3</td>
+                                        <td class="ours-cell"><strong>56.7</strong></td>
+                                        <td>63.3</td>
+                                        <td><strong>70.0</strong></td>
+                                        <td class="ours-cell"><strong>70.0</strong></td>
+                                        <td>76.6</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Size (%) ↓</td>
+                                        <td>20.5</td>
+                                        <td>40.4</td>
+                                        <td class="ours-cell">40.8</td>
+                                        <td>50.3</td>
+                                        <td>75.6</td>
+                                        <td class="ours-cell">75.8</td>
+                                        <td>100.0</td>
+                                    </tr>
+                                    <tr class="group-start">
+                                        <td rowspan="2">Book Fetching</td>
+                                        <td>Suc. (%) ↑</td>
+                                        <td>46.7</td>
+                                        <td>53.3</td>
+                                        <td class="ours-cell"><strong>60.0</strong></td>
+                                        <td>66.7</td>
+                                        <td>76.7</td>
+                                        <td class="ours-cell"><strong>93.3</strong></td>
+                                        <td>93.3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Size (%) ↓</td>
+                                        <td>19.7</td>
+                                        <td>42.5</td>
+                                        <td class="ours-cell">42.3</td>
+                                        <td>49.7</td>
+                                        <td>80.1</td>
+                                        <td class="ours-cell">80.3</td>
+                                        <td>100.0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="table-card collection-card">
+                        <div class="table-caption"><strong>Additional real-world data collection time.</strong> Times
+                            include phase resetting and teleoperation and exclude the shared base set.</div>
+                        <div class="table-scroll">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Task</th>
+                                        <th>Complete<br>(min)</th>
+                                        <th>TSD<br>(min)</th>
+                                        <th>Save<br>(%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Tray Setting</td>
+                                        <td>52.5</td>
+                                        <td>46.6</td>
+                                        <td>11.2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Water Stowing</td>
+                                        <td>43.5</td>
+                                        <td>35.0</td>
+                                        <td>19.5</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Book Fetching</td>
+                                        <td>54.0</td>
+                                        <td>46.0</td>
+                                        <td>14.8</td>
+                                    </tr>
+                                    <tr class="group-start">
+                                        <td><strong>Mean</strong></td>
+                                        <td><strong>50.0</strong></td>
+                                        <td><strong>42.5</strong></td>
+                                        <td><strong>15.2</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-panel" data-comparison="real">
+                    <div class="video-panel-header">
+                        <div>
+                            <h3>Real-world policy rollouts</h3>
+                            <p>Compare DP policies trained with TSD-guided local demonstrations and complete
+                                demonstrations.</p>
+                        </div>
+                        <div class="control-group" aria-label="Pool">
+                            <span>Pool</span>
+                            <button class="chip active" data-control="pool" data-value="50">50%</button>
+                            <button class="chip" data-control="pool" data-value="100">100%</button>
+                        </div>
+                    </div>
+                    <div class="task-tabs" role="tablist" aria-label="Real-world task">
+                        <button class="task-tab active" data-control="task" data-value="bookfetching">Book
+                            Fetching</button>
+                        <button class="task-tab" data-control="task" data-value="waterstowing">Water Stowing</button>
+                        <button class="task-tab" data-control="task" data-value="traysetting">Tray Setting</button>
+                    </div>
+                    <div class="video-compare">
+                        <figure class="video-card">
+                            <figcaption><span class="legend-dot tsd-dot"></span><strong
+                                    id="real-tsd-label">TSD-50</strong></figcaption>
+                            <video id="real-tsd-video" controls muted loop playsinline preload="none"></video>
+                        </figure>
+                        <figure class="video-card">
+                            <figcaption><span class="legend-dot full-dot"></span><strong
+                                    id="real-full-label">Full-50</strong></figcaption>
+                            <video id="real-full-video" controls muted loop playsinline preload="none"></video>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section shell" id="analysis">
+            <div class="section-heading">
+                <p class="kicker">Detector analysis</p>
+                <h2>Detector analysis</h2>
+            </div>
+
+            <div class="analysis-block" id="ablation">
+                <h3>Component ablation</h3>
+                <p>The complete detector combines precise interactions with agile redirections. Single-branch datasets
+                    and transition-matched complete-trajectory controls clarify the contribution of each branch.</p>
+                <div class="table-card centered-table ablation-table-card">
+                    <div class="table-caption"><strong>Component ablation.</strong> P and A denote precise and agile
+                        segments; “matched” denotes complete-trajectory controls with similar transition counts.</div>
+                    <div class="table-scroll">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th colspan="2">Book Fetching</th>
+                                    <th colspan="2">Tool Hang</th>
+                                </tr>
+                                <tr>
+                                    <th>Dataset</th>
+                                    <th>Transitions</th>
+                                    <th>Succ. (%)</th>
+                                    <th>Transitions</th>
+                                    <th>Succ. (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="ours">
+                                    <td><strong>TSD (P+A)</strong></td>
+                                    <td>14921</td>
+                                    <td><strong>93.3</strong></td>
+                                    <td>64237</td>
+                                    <td><strong>56.8</strong></td>
+                                </tr>
+                                <tr class="group-start">
+                                    <td>Precise only</td>
+                                    <td>12938</td>
+                                    <td>63.3</td>
+                                    <td>62283</td>
+                                    <td>52.9</td>
+                                </tr>
+                                <tr>
+                                    <td>Full-Traj (P-matched)</td>
+                                    <td>13015</td>
+                                    <td>70.0</td>
+                                    <td>60930</td>
+                                    <td>46.2</td>
+                                </tr>
+                                <tr class="group-start">
+                                    <td>Agile only</td>
+                                    <td>7220</td>
+                                    <td>40.0</td>
+                                    <td>22179</td>
+                                    <td>16.0</td>
+                                </tr>
+                                <tr>
+                                    <td>Full-Traj (A-matched)</td>
+                                    <td>7110</td>
+                                    <td>50.0</td>
+                                    <td>22870</td>
+                                    <td>30.0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="failure-grid">
+                    <figure class="failure-card"><img src="./static/images/problem_only_precision.png"
+                            alt="Failure without agile segments">
+                        <figcaption><strong>Without agile segments:</strong> hesitation or collision during obstacle
+                            avoidance.</figcaption>
+                    </figure>
+                    <figure class="failure-card"><img src="./static/images/problem_only_agility.png"
+                            alt="Failure without precise segments">
+                        <figcaption><strong>Without precise segments:</strong> inaccurate grasping.</figcaption>
+                    </figure>
+                </div>
+
+                <div class="ablation-video-panel" data-viewer="ablation">
+                    <h4>Ablation rollouts</h4>
+                    <div class="selector-row">
+                        <label for="ablation-task">Task</label>
+                        <select id="ablation-task">
+                            <option value="bookfetching">Book Fetching</option>
+                            <option value="toolhang">Tool Hang</option>
+                        </select>
+                        <label for="ablation-condition">Dataset</label>
+                        <select id="ablation-condition">
+                            <option value="tsd">TSD (P+A)</option>
+                            <option value="precise">Precise only</option>
+                            <option value="preciseMatched">Full-Traj (P-matched)</option>
+                            <option value="agile">Agile only</option>
+                            <option value="agileMatched">Full-Traj (A-matched)</option>
+                        </select>
+                    </div>
+                    <figure class="single-video-card">
+                        <video id="ablation-video" controls muted loop playsinline preload="none"></video>
+                        <figcaption id="ablation-video-caption">Book Fetching — TSD (P+A)</figcaption>
+                    </figure>
+                </div>
+            </div>
+
+            <div class="analysis-block" id="convergence-analysis">
+                <h3>Detection convergence</h3>
+                <p>Mean changes in both detector branches decrease as additional demonstrations are used. Separate
+                    figure slots are reserved below for the precise and agile convergence results.</p>
+                <div class="convergence-grid">
+                    <figure class="paper-figure wide-figure compact-figure">
+                        <img src="./static/images/agility.png" alt="agility convergence results under randomization">
+                    </figure>
+                    <figure class="paper-figure wide-figure compact-figure">
+                        <img src="./static/images/precise.png" alt="precision convergence results under randomization">
+                    </figure>
+                </div>
+            </div>
+
+            <div class="analysis-block" id="sensitivity-analysis">
+                <h3>Robustness and sensitivity</h3>
+                <p>We examine the pose metric, reference trajectory, and shared detector parameters while keeping the
+                    remaining settings fixed.</p>
+                <div class="three-table-grid">
+                    <div class="table-card">
+                        <div class="table-caption"><strong>Pose-metric robustness</strong> averaged over simulation
+                            tasks. ΔRet. is the change in retained-data ratio in percentage points.</div>
+                        <div class="table-scroll">
+                            <table class="data-table compact-table">
+                                <thead>
+                                    <tr>
+                                        <th>Metric</th>
+                                        <th>IoU</th>
+                                        <th>F1</th>
+                                        <th>ΔRet.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>7D Euclidean</td>
+                                        <td>1.000</td>
+                                        <td>1.000</td>
+                                        <td>0.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SE(3), η=0.5</td>
+                                        <td>0.925</td>
+                                        <td>0.961</td>
+                                        <td>1.458</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SE(3), η=1</td>
+                                        <td>0.949</td>
+                                        <td>0.981</td>
+                                        <td>0.806</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SE(3), η=2</td>
+                                        <td>0.994</td>
+                                        <td>0.997</td>
+                                        <td>−0.048</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Quat. chordal</td>
+                                        <td>0.949</td>
+                                        <td>0.981</td>
+                                        <td>0.806</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-caption"><strong>Reference sensitivity</strong> over 10 alternatives per task.
+                            A hit denotes normalized Chamfer distance below 5%.
+                            <br>
+                            <br>
+                        </div>
+                        <div class="table-scroll">
+                            <table class="data-table compact-table">
+                                <thead>
+                                    <tr>
+                                        <th>Task</th>
+                                        <th>Hit rate</th>
+                                        <th>Norm. Chamfer</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Lift</td>
+                                        <td>0.9780±0.0207</td>
+                                        <td>0.0091±0.0031</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Can</td>
+                                        <td>0.9730±0.0131</td>
+                                        <td>0.0102±0.0033</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Square</td>
+                                        <td>0.9340±0.0255</td>
+                                        <td>0.0162±0.0038</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tool Hang</td>
+                                        <td>0.9082±0.0363</td>
+                                        <td>0.0150±0.0059</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Transport</td>
+                                        <td>0.9101±0.0475</td>
+                                        <td>0.0170±0.0036</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-caption"><strong>Parameter sensitivity</strong> measured by mean frame IoU
+                            over simulation tasks.</div>
+                        <div class="table-scroll">
+                            <table class="data-table compact-table">
+                                <thead>
+                                    <tr>
+                                        <th>Setting</th>
+                                        <th>Prec.</th>
+                                        <th>Agile</th>
+                                        <th>Union</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>β=0.05</td>
+                                        <td>1.000</td>
+                                        <td>0.993</td>
+                                        <td>1.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>β=0.20</td>
+                                        <td>0.841</td>
+                                        <td>0.972</td>
+                                        <td>0.843</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lmax=4</td>
+                                        <td>0.934</td>
+                                        <td>—</td>
+                                        <td>0.941</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lmax=16</td>
+                                        <td>0.930</td>
+                                        <td>—</td>
+                                        <td>0.935</td>
+                                    </tr>
+                                    <tr>
+                                        <td>(ρD,ρW)=(.025,.010)</td>
+                                        <td>0.998</td>
+                                        <td>0.973</td>
+                                        <td>0.997</td>
+                                    </tr>
+                                    <tr>
+                                        <td>(ρD,ρW)=(.100,.040)</td>
+                                        <td>0.982</td>
+                                        <td>0.715</td>
+                                        <td>0.975</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-tint" id="efficiency">
+            <div class="shell narrow-wide">
+                <div class="section-heading">
+                    <p class="kicker">Computational efficiency</p>
+                    <h2>Lower downstream training cost</h2>
+                    <p>TSD introduces a small one-time processing cost while reducing the substantially larger cost of
+                        downstream policy training.</p>
+                </div>
+                <div class="efficiency-grid">
+                    <div class="table-card training-table-card">
+                        <div class="table-caption"><strong>Downstream policy training.</strong> Save is the mean ±
+                            standard deviation of task-wise training-time reduction; Perf. is the TSD-to-Full
+                            success-rate ratio.</div>
+                        <div class="table-scroll">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Setting</th>
+                                        <th>Pool</th>
+                                        <th>Full (h)</th>
+                                        <th>TSD (h)</th>
+                                        <th>Save (%)</th>
+                                        <th>Perf. (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Sim.–DP</td>
+                                        <td>50</td>
+                                        <td>9.43</td>
+                                        <td>7.77</td>
+                                        <td>13.4±4.5</td>
+                                        <td>98.7</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sim.–DP</td>
+                                        <td>100</td>
+                                        <td>17.99</td>
+                                        <td>13.46</td>
+                                        <td>19.9±5.4</td>
+                                        <td>100.5</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sim.–ACT</td>
+                                        <td>50</td>
+                                        <td>13.03</td>
+                                        <td>10.83</td>
+                                        <td>19.7±8.8</td>
+                                        <td>105.0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sim.–ACT</td>
+                                        <td>100</td>
+                                        <td>26.54</td>
+                                        <td>20.29</td>
+                                        <td>26.4±11.2</td>
+                                        <td>98.1</td>
+                                    </tr>
+                                    <tr class="group-start">
+                                        <td>Real–DP</td>
+                                        <td>50</td>
+                                        <td>15.86</td>
+                                        <td>13.45</td>
+                                        <td>14.5±2.2</td>
+                                        <td>96.4</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Real–DP</td>
+                                        <td>100</td>
+                                        <td>28.15</td>
+                                        <td>23.67</td>
+                                        <td>16.5±3.6</td>
+                                        <td>98.7</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="table-card curation-table-card">
+                        <div class="table-caption"><strong>Dataset curation time.</strong></div>
+                        <div class="table-scroll">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Method</th>
+                                        <th>Computation</th>
+                                        <th>Mean time</th>
+                                        <th>Range</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="ours">
+                                        <td><strong>TSD</strong></td>
+                                        <td>Trajectory processing</td>
+                                        <td>42.51±49.76 s</td>
+                                        <td>2.02–106.80 s</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DemInf</td>
+                                        <td>Two VAE stages</td>
+                                        <td>1.54 h</td>
+                                        <td>1.46–1.74 h</td>
+                                    </tr>
+                                    <tr>
+                                        <td>IWR</td>
+                                        <td>State–action VAE</td>
+                                        <td>2.56 h</td>
+                                        <td>2.55–2.59 h</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="shell">
+            <p>Anonymous project page for peer review.</p>
         </div>
+    </footer>
 
-        <!-- Ablation Task: Book Fetching -->
-        <div class="task-block" id="task-ablation-book-fetching">
-          <h4 class="title is-4 has-text-centered">Book Fetching</h4>
-
-          <div class="tabs is-centered is-toggle is-small task-tabs">
-            <ul>
-              <li class="is-active"><a onclick="switchTaskTab('ablation-book-fetching', 'b2', this)">B2 (Ours)</a>
-              </li>
-              <li><a onclick="switchTaskTab('ablation-book-fetching', 'groupc', this)">Group C (Agile)</a></li>
-              <li><a onclick="switchTaskTab('ablation-book-fetching', 'groupd', this)">Group D (Precise)</a></li>
-            </ul>
-          </div>
-
-          <!-- B2 -->
-          <div id="ablation-book-fetching-b2" class="task-tab-content is-active">
-            <div class="columns is-centered">
-              <div class="column is-4 video-column">
-                <video preload="none" controls muted loop playsinline width="100%">
-                  <source
-                    data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/bookfetching/book_cut100.mp4"
-                    type="video/mp4">
-                </video>
-                <p>Book Fetching - Model B2 (Ours)</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Group C -->
-          <div id="ablation-book-fetching-groupc" class="task-tab-content">
-            <div class="columns is-centered">
-              <div class="column is-5 video-column">
-                <video preload="none" controls muted loop playsinline width="100%">
-                  <source
-                    data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/bookfetching/book_70.mp4"
-                    type="video/mp4">
-                </video>
-                <p>Book Fetching - Model C1</p>
-              </div>
-              <div class="column is-5 video-column">
-                <video preload="none" controls muted loop playsinline width="100%">
-                  <source
-                    data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/bookfetching/book_cut_onlyprecision.mp4"
-                    type="video/mp4">
-                </video>
-                <p>Book Fetching - Model C2 (w/o agile)</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Group D -->
-          <div id="ablation-book-fetching-groupd" class="task-tab-content">
-            <div class="columns is-centered">
-              <div class="column is-5 video-column">
-                <video preload="none" controls muted loop playsinline width="100%">
-                  <source
-                    data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/bookfetching/book_39.mp4"
-                    type="video/mp4">
-                </video>
-                <p>Book Fetching - Model D1</p>
-              </div>
-              <div class="column is-5 video-column">
-                <video preload="none" controls muted loop playsinline width="100%">
-                  <source
-                    data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/bookfetching/book_cut_onlyagility.mp4"
-                    type="video/mp4">
-                </video>
-                <p>Book Fetching - Model D2 (w/o precise)</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Ablation Task: Tool Hang -->
-        <div class="task-block" id="task-ablation-tool-hang">
-          <h4 class="title is-4 has-text-centered">Tool Hang</h4>
-
-          <div class="tabs is-centered is-toggle is-small task-tabs">
-            <ul>
-              <li class="is-active"><a onclick="switchTaskTab('ablation-tool-hang', 'b2', this)">B2 (Ours)</a></li>
-              <li><a onclick="switchTaskTab('ablation-tool-hang', 'groupc', this)">Group C (Agile)</a></li>
-              <li><a onclick="switchTaskTab('ablation-tool-hang', 'groupd', this)">Group D (Precise)</a></li>
-            </ul>
-          </div>
-
-          <!-- B2 -->
-          <div id="ablation-tool-hang-b2" class="task-tab-content is-active">
-            <div class="columns is-centered">
-              <div class="column is-4 video-column">
-                <video preload="none" controls muted loop playsinline width="100%">
-                  <source
-                    data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/toolhang/toolhang_cut100.mp4"
-                    type="video/mp4">
-                </video>
-                <p>Tool Hang - Model B2 (Ours)</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Group C -->
-          <div id="ablation-tool-hang-groupc" class="task-tab-content">
-            <div class="columns is-centered">
-              <div class="column is-5 video-column">
-                <video preload="none" controls muted loop playsinline width="100%">
-                  <source
-                    data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/ablation/toolhang/toolhang_25.mp4"
-                    type="video/mp4">
-                </video>
-                <p>Tool Hang - Model C1</p>
-              </div>
-              <div class="column is-5 video-column">
-                <video preload="none" controls muted loop playsinline width="100%">
-                  <source
-                    data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/ablation/toolhang/toolhang_agility.mp4"
-                    type="video/mp4">
-                </video>
-                <p>Tool Hang - Model C2 (w/o agile)</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Group D -->
-          <div id="ablation-tool-hang-groupd" class="task-tab-content">
-            <div class="columns is-centered">
-              <div class="column is-5 video-column">
-                <video preload="none" controls muted loop playsinline width="100%">
-                  <source
-                    data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/ablation/toolhang/toolhang_65.mp4"
-                    type="video/mp4">
-                </video>
-                <p>Tool Hang - Model D1</p>
-              </div>
-              <div class="column is-5 video-column">
-                <video preload="none" controls muted loop playsinline width="100%">
-                  <source
-                    data-src="https://trajectory-saliency-detector.github.io/trajectory-saliency-detector/static/videos/ablation/toolhang/toolhang_precision.mp4"
-                    type="video/mp4">
-                </video>
-                <p>Tool Hang - Model D2 (w/o precise)</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container">
-      <div class="content has-text-centered">
-        <a class="icon-link" href="./static/paper.pdf">
-          <i class="fas fa-file-pdf"></i>
-        </a>
-        <a class="icon-link" href="https://anonymous.4open.science/r/TSD" class="external-link" disabled>
-          <i class="fab fa-github"></i>
-        </a>
-      </div>
-      <div class="columns is-centered">
-        <div class="column is-8">
-          <div class="content">
-            <p>
-              This website is licensed under a <a rel="license"
-                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
-                Commons Attribution-ShareAlike 4.0 International License</a>.
-            </p>
-            <p>
-              This site is adapted from the
-              <a href="https://github.com/nerfies/nerfies.github.io">Nerfies website template</a>.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-
+    <script src="./static/js/site.js"></script>
 </body>
 
 </html>
